@@ -1,6 +1,7 @@
 const gameContainer = document.getElementById("game");
 let newDiv = '';
 let card1 = null;
+let click = false;
 
 const COLORS = [
   "red",
@@ -66,8 +67,9 @@ function handleCardClick(event) {
 
   let clickedCard = event.target;
 
-  if (clickedCard === card1 || clickedCard.className.includes('matched')) {
+  if (click === true || clickedCard === card1 || clickedCard.className.includes('matched')) {
     return;
+
   }
   clickedCard.style.backgroundColor = clickedCard.classList[0];
   clickedCard.className += ' matched';
@@ -77,9 +79,11 @@ function handleCardClick(event) {
 
   } else if (card1) {
     if (card1.classList[0] === clickedCard.classList[0]) {
-      card1 = null;
       alert("It's a Match!");
-    } else {
+      card1 = null;
+
+    } else if (card1.classList[0] !== clickedCard.classList[0]) {
+      click = true;
       setTimeout(function () {
         clickedCard.classList.remove('matched');
         card1.classList.remove('matched');
@@ -87,6 +91,7 @@ function handleCardClick(event) {
         card1.style.backgroundColor = null;
         clickedCard.style.backgroundColor = null;
         card1 = null;
+        click = false;
 
       }, 1000)
     }
